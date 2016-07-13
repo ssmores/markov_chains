@@ -53,46 +53,40 @@ def make_text(chains):
 
     text = ""
 
+    # Select a random key from all the keys in the chains dictionary.
     first_key = choice(chains.keys())
+
+    # Select a random value from key selected above.
     first_value = choice(chains[first_key])
+
+    # This unpacks the key into individual identifiers, so we can add to the text.
     first_word, second_word = first_key
+
+    # This updates the string with the identifies unpacked from the first key,
+    # and adds them and the first value to the existing text string.
     text = "{} {} {} {}".format(text, first_word, second_word, first_value)
-    new_key = chains.get((second_word, first_value), 0)
 
-    # we need to make 'you' the first part of the tuple key
-    # we need to make 'could' the second part of the tuple key  
-
-    # first_key = ('would', 'you')
-    # first_word = 'would'
-    # second_work = 'you'
-    # first_value = 'could' randomly selected
-    # new_key = ('you', 'could')
+    # The next key is bound to the second word (of the original key), and the
+    # value that was selected. 
+    new_key = (second_word, first_value)
 
 
-    while new_key != 0:
+    # While the new key is in the keys in the dictionary
+    while new_key in chains.keys():
+        # Randomly select a value of the key from the chain dictionary
+        # and bind that to a new value.
         new_value = choice(chains[new_key])
-        # new_value = 'I'
+        # Unpack the list again, in order to eventually create new key.
+        word1, word2 = new_key
+        # Only adds the new value to the existing string.
         text = "{} {}".format(text, new_value)
-        # "would you could I"
-        new_value = chains.get((first_value, new_value), 0)
-        # new_value = chains.get(('you', 'could'), 0)
-        # we need ('could', 'I') instead of the ('you', 'could')
-
-
-
-
-
-
-
-    # We need an if statement for if the "new key" is not a key in the dictionary, then we stop. 
-    # We need a condition for the while loop such that it will continue if the key exists in the dictionary.
-    
-    print text
+        # Rebinds the key with the second word and new value.
+        new_key = (word2, new_value)
 
     return text
 
 
-input_path = "green-eggs.txt"
+input_path = "gettysburg.txt"
 
 # Open the file and turn it into one long string
 input_text = open_and_read_file(input_path)
