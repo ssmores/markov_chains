@@ -31,29 +31,20 @@ def make_chains(text_string):
     """
 
     chains = {}
-    new_value = []
 
     words = text_string.split()
 
-    for i in (range(len(words) - 1)):
+    for i in (range(len(words) - 2)):
         two_words = (words[i], words[i+1])
-        # print two_words
+        value = words[i+2]
+        
+        if chains.get(two_words): #this means that the key does exist
+            
+            chains.get(two_words).append(value) 
+     
+        else:
+            chains[two_words] = [value]
 
-        if i < (len(words) - 2):
-            new_value.append(chains.get(two_words, words[i + 2]))
-            # new_value = chains.get(two_words, words[i+2])
-            print new_value
-            chains[two_words] = new_value
-
-        # if i < (len(words) - 2):
-            # chains = chains.get((words[i], words[i+1], following_word_values.append(words[i + 2])))
-    # your code goes here
-
-    # Pseudo code
-    # Set the first tuple as a key
-    # We need to map out the index of every word
-    # So we can create a key, and then find the index of the next value to create the next key
-    print chains
     return chains
 
 
@@ -62,7 +53,41 @@ def make_text(chains):
 
     text = ""
 
-    # your code goes here
+    first_key = choice(chains.keys())
+    first_value = choice(chains[first_key])
+    first_word, second_word = first_key
+    text = "{} {} {} {}".format(text, first_word, second_word, first_value)
+    new_key = chains.get((second_word, first_value), 0)
+
+    # we need to make 'you' the first part of the tuple key
+    # we need to make 'could' the second part of the tuple key  
+
+    # first_key = ('would', 'you')
+    # first_word = 'would'
+    # second_work = 'you'
+    # first_value = 'could' randomly selected
+    # new_key = ('you', 'could')
+
+
+    while new_key != 0:
+        new_value = choice(chains[new_key])
+        # new_value = 'I'
+        text = "{} {}".format(text, new_value)
+        # "would you could I"
+        new_value = chains.get((first_value, new_value), 0)
+        # new_value = chains.get(('you', 'could'), 0)
+        # we need ('could', 'I') instead of the ('you', 'could')
+
+
+
+
+
+
+
+    # We need an if statement for if the "new key" is not a key in the dictionary, then we stop. 
+    # We need a condition for the while loop such that it will continue if the key exists in the dictionary.
+    
+    print text
 
     return text
 
